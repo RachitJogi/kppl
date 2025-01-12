@@ -37,11 +37,12 @@ export default function About() {
                   </h4>
                   <h2>Welcome to KPPL</h2>
                   <p className='about-two-title-text'>
-                    Sed ut perspiciatis unde omnis iste natus error sit
-                    voluptatem accusantium doloremque laudantium totam rem
-                    aperiam eaque abillo inventore veritatis quasi architecto
-                    beatae vitae dicta sunt explicabo nemo enim ipsam voluptatem
-                    quia.
+                    Kutch Potash Pvt. Ltd. is a forward-thinking company
+                    dedicated to driving innovation in the chemical industry.
+                    Founded with a vision to be a catalyst for positive change,
+                    we are committed to providing sustainable and innovative
+                    solutions that cater to the growing demands of modern
+                    industries.
                   </p>
                 </div>
                 <div className='row'>
