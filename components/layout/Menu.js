@@ -6,11 +6,6 @@ export default function Menu() {
 
   return (
     <>
-      {/* <ul className="sub-menu">
-                <Link className={router.pathname == "/" ? "active" : ""}>Home Default</Link>
-                <Link className={router.pathname == "/index-2" ? "active" : ""}>Home Interior</Link>
-            </ul> */}
-
       <ul className='navigation clearfix'>
         <li>
           <Link href='/'>Home</Link>
