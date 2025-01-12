@@ -12,51 +12,6 @@ export default function Header1({
     <>
       {/* Main Header*/}
       <header className={`main-header ${scroll ? "fixed-header" : ""}`}>
-        <div className='header_top'>
-          <div className='auto-container'>
-            <div className='row'>
-              <div className='col-xl-12'>
-                <div className='header_top_inner clearfix'>
-                  <div className='header_top_one_box pull-left'>
-                    <ul>
-                      <li>
-                        <span className='flaticon-placeholder'></span>Flat 20,
-                        Reynolds USA
-                      </li>
-                      <li>
-                        <span className='flaticon-phone-call-1'></span>
-                        <Link href='tel:8125553344'>+812 555 33 44</Link>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className='header_top_two_box pull-right'>
-                    <div className='opening_hour'>
-                      <p>
-                        <span className='flaticon-clock-1'></span>Mon - Fri:
-                        9:00 - 19:00
-                      </p>
-                    </div>
-                    <div className='social_links_1'>
-                      <Link href='#'>
-                        <i className='fab fa-facebook-square'></i>
-                      </Link>
-                      <Link href='#'>
-                        <i className='fab fa-twitter'></i>
-                      </Link>
-                      <Link href='#'>
-                        <i className='fab fa-dribbble'></i>
-                      </Link>
-                      <Link href='#'>
-                        <i className='fab fa-instagram'></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Header Upper */}
         <div className='header_upper'>
           <div className='auto-container'>
@@ -72,6 +27,7 @@ export default function Header1({
                           title=''
                         />
                       </Link>
+                      <span>Kutch Potash</span>
                     </div>
                   </div>
                   <div className='header_upper_two_box one pull-right'>
@@ -96,18 +52,6 @@ export default function Header1({
                         {/* Main Menu End*/}
                       </div>
                     </div>
-                    <div className='icon-search-box'>
-                      <button
-                        className='dropdown-toggle'
-                        id='searchDropdown'
-                        data-toggle='dropdown'
-                        aria-haspopup='true'
-                        aria-expanded='false'
-                        onClick={handlePopup}
-                      >
-                        <i className='fa fa-search' aria-hidden='true'></i>
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -126,8 +70,13 @@ export default function Header1({
                 <div className='logo-box'>
                   <div className='logo'>
                     <Link href='/'>
-                      <img src='assets/images/logo.png' alt='' title='' />
+                      <img
+                        src='assets/images/kppl-logo.png'
+                        alt='kppl logo'
+                        title=''
+                      />
                     </Link>
+                    <span>Kutch Potash</span>
                   </div>
                 </div>
               </div>

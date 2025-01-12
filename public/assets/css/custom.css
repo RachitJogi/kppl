@@ -1,0 +1,72 @@
+:root {
+   --thm-primary: #fece3c;
+   --thm-black: #222222;
+   --thm-gray: #777777;
+}
+
+.header_upper_one_box .logo,
+.sticky-header .logo {
+   display: flex;
+   align-items: center;
+}
+
+.logo img {
+   width: 48px;
+}
+
+.logo span {
+   font-size: 24px;
+   font-weight: bold;
+   margin-left: 10px;
+   color: var(--thm-black);
+}
+
+.banner-section .content-box h1 {
+   text-transform: capitalize;
+}
+
+
+/* CAREER SECTION */
+.career-section {
+   padding: 50px 0;
+}
+
+.career-section h4 {
+   margin-bottom: 20px;
+}
+
+.career-section h5 {
+   margin-bottom: 10px;
+}
+
+.career-section ul li {
+   margin-bottom: 12px;
+}
+
+.position-item {
+   margin-bottom: 20px;
+}
+
+.position-item p {
+   margin-bottom: 0;
+}
+
+.contact-one-section .container>h5 {
+   margin-bottom: 40px;
+}
+
+.team-one-img {
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center center;
+}
+
+.team-one-img img {
+   opacity: 0;
+   visibility: hidden;
+   max-height: 370px;
+}
+
+.team-one-img:before {
+   display: none;
+}
