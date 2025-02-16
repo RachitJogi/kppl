@@ -1,4 +1,6 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,22 +10,37 @@ const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
   slidesPerView: 1,
   spaceBetween: 0,
-  // autoplay: {
-  //     delay: 2500,
-  //     disableOnInteraction: false,
-  // },
   loop: true,
-
-  // Navigation
   navigation: {
     nextEl: ".h1n",
     prevEl: ".h1p",
   },
 };
 
-const sliderItems = await getSliderItems();
-
 export default function Banner() {
+  const [sliderItems, setSliderItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSliderItems = async () => {
+      try {
+        const data = await getSliderItems();
+        setSliderItems(data);
+      } catch (err) {
+        console.error("Error fetching slider items:", err);
+        setError("Failed to load slider.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSliderItems();
+  }, []);
+
+  if (error) return <p>{error}</p>;
+  if (!sliderItems.length) return null;
+
   return (
     <>
       <section className='banner-section wow fadeIn'>
@@ -47,14 +64,13 @@ export default function Banner() {
                       <br />
                       {item.fields.titleSecondLine}
                       <br />
-                      {item.fields.titleThirdLine}
-                      {` `}
+                      {item.fields.titleThirdLine}{" "}
                       <span>{item.fields.highlightedText}</span>
                     </h1>
                     <div className='text'>{item.fields.subTitle}</div>
                     <div className='link-box'>
                       <Link
-                        href={`${item.fields.sliderButtonLink}`}
+                        href={item.fields.sliderButtonLink}
                         className='theme-btn btn-style-one'
                       >
                         <span>{item.fields.sliderButtonText}</span>

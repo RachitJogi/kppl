@@ -1,9 +1,8 @@
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Menu from "../Menu";
 import MobileMenu from "../MobileMenu";
 import { getLogoImage } from "@/lib/contentful/client";
-
-const logo = await getLogoImage();
 
 export default function Header1({
   scroll,
@@ -11,6 +10,33 @@ export default function Header1({
   handleMobileMenu,
   handlePopup,
 }) {
+  const [logo, setLogo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const data = await getLogoImage();
+        if (data.length > 0) {
+          setLogo(data[0].fields.logoImage.fields.file.url);
+        } else {
+          setError("No logo available.");
+        }
+      } catch (err) {
+        console.error("Error fetching logo:", err);
+        setError("Failed to load logo.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLogo();
+  }, []);
+
+  if (error) return <p>{error}</p>;
+  if (!logo) return null;
+
   return (
     <>
       {/* Main Header*/}
@@ -24,18 +50,14 @@ export default function Header1({
                   <div className='header_upper_one_box'>
                     <div className='logo'>
                       <Link href='/'>
-                        <img
-                          src={logo[0].fields.logoImage.fields.file.url}
-                          alt='kppl logo'
-                          title=''
-                        />
+                        <img src={logo} alt='kppl logo' title='' />
                         <span>Kutch Potash</span>
                       </Link>
                     </div>
                   </div>
                   <div className='header_upper_two_box one'>
                     <div className='nav-outer'>
-                      {/*Mobile Navigation Toggler*/}
+                      {/* Mobile Navigation Toggler */}
                       <div
                         className='mobile-nav-toggler'
                         onClick={handleMobileMenu}
@@ -52,7 +74,7 @@ export default function Header1({
                             <Menu />
                           </div>
                         </nav>
-                        {/* Main Menu End*/}
+                        {/* Main Menu End */}
                       </div>
                     </div>
                   </div>
@@ -61,9 +83,8 @@ export default function Header1({
             </div>
           </div>
         </div>
-        {/*End Header Upper*/}
+        {/* End Header Upper */}
 
-        {/*End Header Upper*/}
         <div
           className={`sticky-header ${scroll ? "animated slideInDown" : ""}`}
         >
@@ -73,11 +94,7 @@ export default function Header1({
                 <div className='logo-box'>
                   <div className='logo'>
                     <Link href='/'>
-                      <img
-                        src={logo[0].fields.logoImage.fields.file.url}
-                        alt='kppl logo'
-                        title=''
-                      />
+                      <img src={logo} alt='kppl logo' title='' />
                       <span>Kutch Potash</span>
                     </Link>
                   </div>
@@ -85,7 +102,7 @@ export default function Header1({
               </div>
               <div className='header-column'>
                 <div className='nav-outer'>
-                  {/*Mobile Navigation Toggler*/}
+                  {/* Mobile Navigation Toggler */}
                   <div
                     className='mobile-nav-toggler'
                     onClick={handleMobileMenu}
@@ -100,7 +117,7 @@ export default function Header1({
                         <Menu />
                       </div>
                     </nav>
-                    {/* Main Menu End*/}
+                    {/* Main Menu End */}
                   </div>
                 </div>
               </div>

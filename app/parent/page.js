@@ -2,17 +2,32 @@
 
 import Layout from "@/components/layout/Layout";
 import { parentCompaniesItems } from "@/lib/contentful/client";
+import { useState, useEffect } from "react";
 
-const parentItems = await parentCompaniesItems();
 const Parent = () => {
+  const [parentItems, setParentItems] = useState([]);
+
+  useEffect(() => {
+    const fetchParentCompanies = async () => {
+      try {
+        const data = await parentCompaniesItems();
+        setParentItems(data);
+      } catch (error) {
+        console.error("Error fetching parent company data:", error);
+      }
+    };
+
+    fetchParentCompanies();
+  }, []);
+
   return (
-    <>
-      <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='Parent Company'>
-        {/*Start Main Service Two Section */}
-        <section className='main-service-one-section two'>
-          <div className='container'>
-            <div className='row'>
-              {parentItems.map((item) => (
+    <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='Parent Company'>
+      {/*Start Main Service Two Section */}
+      <section className='main-service-one-section two'>
+        <div className='container'>
+          <div className='row'>
+            {parentItems.length > 0 ? (
+              parentItems.map((item) => (
                 <div key={item.sys.id} className='col-xl-4 col-lg-4'>
                   {/*Main Service One Sec Single*/}
                   <div
@@ -22,7 +37,7 @@ const Parent = () => {
                     <div className='main-service-one-sec-img'>
                       <img
                         src={item.fields.parentCompanyLogo.fields.file.url}
-                        alt=''
+                        alt={item.fields.parentCompanyName}
                       />
                     </div>
                     <div className='main-service-one-sec-content'>
@@ -30,13 +45,15 @@ const Parent = () => {
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              ))
+            ) : (
+              <p>Loading parent companies...</p>
+            )}
           </div>
-        </section>
-        {/*End Main Service Two Section */}
-      </Layout>
-    </>
+        </div>
+      </section>
+      {/*End Main Service Two Section */}
+    </Layout>
   );
 };
 

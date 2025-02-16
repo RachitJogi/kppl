@@ -1,17 +1,26 @@
 "use client";
+import Preloader from "@/components/elements/Preloader";
 import Layout from "@/components/layout/Layout";
 import { getContactPage } from "@/lib/contentful/client";
 import Link from "next/link";
-import { use, useState } from "react";
-
-const contactPage = await getContactPage();
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [contactPage, setContactPage] = useState(null);
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      const pageData = await getContactPage();
+      setContactPage(pageData[0]);
+    }
+    fetchData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +44,10 @@ export default function Home() {
     setMessage("");
   };
 
+  if (!contactPage) {
+    return <Preloader />;
+  }
+
   return (
     <>
       <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='Contact'>
@@ -42,14 +55,12 @@ export default function Home() {
           {/*Start Contact One Section*/}
           <section className='contact-one-section'>
             <div className='container'>
-              <h5>{contactPage[0].fields.contactPageTitle}</h5>
+              <h5>{contactPage.fields.contactPageTitle}</h5>
               <div className='row'>
                 <div className='col-xl-6'>
                   <div className='contact-one-image'>
                     <img
-                      src={
-                        contactPage[0].fields.contactPageImage.fields.file.url
-                      }
+                      src={contactPage.fields.contactPageImage.fields.file.url}
                       alt=''
                     />
                   </div>
@@ -133,7 +144,7 @@ export default function Home() {
 
           <section className='google_map'>
             <iframe
-              src={contactPage[0].fields.googleMapLink}
+              src={contactPage.fields.googleMapLink}
               className='google-map__contact'
             ></iframe>
           </section>
@@ -150,10 +161,8 @@ export default function Home() {
                     </div>
                     <div className='contactinfo-content'>
                       <h4>Mail Address</h4>
-                      <Link
-                        href={`mailto:${contactPage[0].fields.mailAddress}`}
-                      >
-                        {contactPage[0].fields.mailAddress}
+                      <Link href={`mailto:${contactPage.fields.mailAddress}`}>
+                        {contactPage.fields.mailAddress}
                       </Link>
                     </div>
                   </div>
@@ -166,10 +175,8 @@ export default function Home() {
                     </div>
                     <div className='contactinfo-content'>
                       <h4>Call Us</h4>
-                      <Link
-                        href={`tel:+91 ${contactPage[0].fields.phoneNumber}`}
-                      >
-                        +91 {contactPage[0].fields.phoneNumber}
+                      <Link href={`tel:+91 ${contactPage.fields.phoneNumber}`}>
+                        +91 {contactPage.fields.phoneNumber}
                       </Link>
                     </div>
                   </div>
@@ -182,7 +189,7 @@ export default function Home() {
                     </div>
                     <div className='contactinfo-content'>
                       <h4>Visit us</h4>
-                      <p>{contactPage[0].fields.address}</p>
+                      <p>{contactPage.fields.address}</p>
                     </div>
                   </div>
                 </div>

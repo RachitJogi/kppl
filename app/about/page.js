@@ -2,17 +2,31 @@
 import Layout from "@/components/layout/Layout";
 import Team from "@/components/sections/home1/Team";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalVideo from "react-modal-video";
 import { aboutUsAboutContent, aboutUsVideo } from "@/lib/contentful/client";
-
-const aboutUsAboutContentItems = await aboutUsAboutContent();
-const aboutUsVideoItems = await aboutUsVideo();
+import Preloader from "@/components/elements/Preloader";
 
 export default function Home() {
+  const [aboutData, setAboutData] = useState(null);
+  const [videoData, setVideoData] = useState(null);
   const [isOpen, setOpen] = useState(false);
-  const videoItems = aboutUsVideoItems[0];
-  console.log(videoItems);
+
+  useEffect(() => {
+    async function fetchData() {
+      const about = await aboutUsAboutContent();
+      const video = await aboutUsVideo();
+      setAboutData(about[0]);
+      setVideoData(video[0]);
+    }
+
+    fetchData();
+  }, []);
+
+  if (!aboutData || !videoData) {
+    return <Preloader />;
+  }
+
   return (
     <>
       <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='About Us'>
@@ -41,10 +55,7 @@ export default function Home() {
                       }}
                     ></div>
                     <img
-                      src={
-                        aboutUsAboutContentItems[0].fields.aboutImage.fields
-                          .file.url
-                      }
+                      src={aboutData.fields.aboutImage.fields.file.url}
                       alt=''
                     />
                   </div>
@@ -56,12 +67,9 @@ export default function Home() {
                     <h4 className='sub-title-shape-left section_title-subheading'>
                       About Us
                     </h4>
-                    <h2>{aboutUsAboutContentItems[0].fields.aboutUsTitle}</h2>
+                    <h2>{aboutData.fields.aboutUsTitle}</h2>
                     <p className='about-two-title-text'>
-                      {
-                        aboutUsAboutContentItems[0].fields
-                          .aboutUsShortDescription1
-                      }
+                      {aboutData.fields.aboutUsShortDescription1}
                     </p>
                   </div>
                   <div className='about-tow-experience-years style-two'>
@@ -69,32 +77,25 @@ export default function Home() {
                       <span className='flaticon-medal'></span>
                     </div>
                     <div className='about-tow-experience-years-text'>
-                      <h2>
-                        {aboutUsAboutContentItems[0].fields.yearsOfExperience}+
-                      </h2>
+                      <h2>{aboutData.fields.yearsOfExperience}+</h2>
                       <p>Years of Experience</p>
                     </div>
                   </div>
                   <div className='about-two-bottom-content'>
                     <p className='about-two-bottom-text'>
-                      {
-                        aboutUsAboutContentItems[0].fields
-                          .aboutUsShortDescription2
-                      }
+                      {aboutData.fields.aboutUsShortDescription2}
                     </p>
                     <h3>
-                      {aboutUsAboutContentItems[0].fields.ceoName}-
-                      <span>
-                        {aboutUsAboutContentItems[0].fields.ceoPosition}
-                      </span>
+                      {aboutData.fields.ceoName}-
+                      <span>{aboutData.fields.ceoPosition}</span>
                     </h3>
                   </div>
                   <div className='about-two-btn'>
                     <Link
-                      href={`/${aboutUsAboutContentItems[0].fields.buttonLink}`}
+                      href={`/${aboutData.fields.buttonLink}`}
                       className='theme-btn'
                     >
-                      {aboutUsAboutContentItems[0].fields.buttonText}
+                      {aboutData.fields.buttonText}
                     </Link>
                   </div>
                 </div>
@@ -107,7 +108,7 @@ export default function Home() {
         <section
           className='video-two-section'
           style={{
-            backgroundImage: `url(${videoItems.fields.videoBackgroundImage.fields.file.url}`,
+            backgroundImage: `url(${videoData.fields.videoBackgroundImage.fields.file.url}`,
           }}
         >
           <div className='container'>
@@ -124,11 +125,11 @@ export default function Home() {
                   </div>
                   <div className='video-two-sec-content'>
                     <h2>
-                      {videoItems.fields.videoTitleFirst}{" "}
-                      <span>{videoItems.fields.videoTitleHighlight}</span>{" "}
-                      <br /> {videoItems.fields.videoTitleLast}
+                      {videoData.fields.videoTitleFirst}{" "}
+                      <span>{videoData.fields.videoTitleHighlight}</span> <br />{" "}
+                      {videoData.fields.videoTitleLast}
                     </h2>
-                    <p>{videoItems.fields.videoSubTitle}</p>
+                    <p>{videoData.fields.videoSubTitle}</p>
                   </div>
                 </div>
               </div>
@@ -140,7 +141,7 @@ export default function Home() {
           channel='youtube'
           autoplay
           isOpen={isOpen}
-          videoId={videoItems.fields.videoID}
+          videoId={videoData.fields.videoID}
           onClose={() => setOpen(false)}
         />
         {/*Start Team One Section */}

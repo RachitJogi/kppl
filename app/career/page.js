@@ -1,13 +1,29 @@
+"use client";
+import Preloader from "@/components/elements/Preloader";
 import Layout from "@/components/layout/Layout";
 import { getCareerPage, getCareerPosition } from "@/lib/contentful/client";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const careerPage = await getCareerPage();
-const careerPosition = await getCareerPosition();
 const page = () => {
-  const { intro, howToApply } = careerPage[0].fields;
-  console.log(careerPosition);
+  const [careerPage, setCareerPage] = useState(null);
+  const [careerPositions, setCareerPositions] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const pageData = await getCareerPage();
+      const positionData = await getCareerPosition();
+      setCareerPage(pageData[0]);
+      setCareerPositions(positionData);
+    }
+    fetchData();
+  }, []);
+
+  if (!careerPage) {
+    return <Preloader />;
+  }
+
+  const { intro, howToApply } = careerPage.fields;
   return (
     <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='Career'>
       <section className='career-section'>
@@ -21,7 +37,7 @@ const page = () => {
             positions:
           </p>
           <div className='position-list'>
-            {careerPosition.map((item) => (
+            {careerPositions.map((item) => (
               <div className='position-item' key={item.sys.id}>
                 <h4>{item.fields.positionTitle}</h4>
                 <h5>
