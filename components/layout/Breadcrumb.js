@@ -1,4 +1,7 @@
+import { getBannerImage } from "@/lib/contentful/client";
 import Link from "next/link";
+
+const bannerImage = await getBannerImage();
 
 export default function Breadcrumb({ breadcrumbTitle }) {
   return (
@@ -7,7 +10,7 @@ export default function Breadcrumb({ breadcrumbTitle }) {
       <section
         className='page-header'
         style={{
-          backgroundImage: "url(assets/images/background/page-header-bg.jpg)",
+          backgroundImage: `url(${bannerImage[0].fields.bannerImage.fields.file.url})`,
         }}
       >
         <div className='container'>

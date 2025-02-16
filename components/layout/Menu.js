@@ -20,10 +20,18 @@ export default function Menu() {
           <Link href='/project'>Projects</Link>
           <ul>
             <li>
-              <Link href='/boric-acid'>Boric Acid</Link>
+              <Link href='/project/boric-acid'>Boric Acid</Link>
             </li>
             <li>
-              <Link href='/upcoming-projects'>Upcoming projects</Link>
+              <Link href='/project/upcoming-projects'>Upcoming projects</Link>
+            </li>
+          </ul>
+        </li>
+        <li className='dropdown'>
+          <Link href='/products'>Products</Link>
+          <ul>
+            <li>
+              <Link href='/products/boric-acid'>Boric Acid</Link>
             </li>
           </ul>
         </li>

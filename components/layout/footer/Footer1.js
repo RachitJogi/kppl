@@ -1,5 +1,7 @@
 import Link from "next/link";
 export default function Footer1() {
+  const d = new Date();
+  let year = d.getFullYear();
   return (
     <>
       {/*Start Footer Section */}
@@ -59,6 +61,9 @@ export default function Footer1() {
                     <Link href='/project'>Projects</Link>
                   </li>
                   <li>
+                    <Link href='/products'>Products</Link>
+                  </li>
+                  <li>
                     <Link href='/enquiry'>Enquiry</Link>
                   </li>
                   <li>
@@ -80,18 +85,21 @@ export default function Footer1() {
                 </div>
                 <div className='footer-widget_contact-info'>
                   <p>
-                    A/A-201, CITADEL GREENZ,
+                    308/309 ,Vraj Valencia,
                     <br />
-                    B/H. VOLKSWAGEN SHOWROOM
+                    Behind Mahindra Showroom,
                     <br />
-                    NR.SOLA BRIDGE, S.G HIGHWAY, SOLA ,
-                    <br /> AHMEDABAD, Gujarat, India - 380060
+                    Sarkhej Bridge,
+                    <br />
+                    Sarkhej - Gandhinagar Hwy, Sola,
+                    <br />
+                    Ahmedabad, Gujarat 380060
                   </p>
                   <p>
-                    <Link href='tel:+91 90045 18645'>+91 90045 18645</Link>
+                    <Link href='tel:+91 6357956992'>+91 6357956992</Link>
                   </p>
                   <p>
-                    <Link href='mailto:info@kppl.com'>info@kppl.com</Link>
+                    <Link href='mailto:hr@kpplco.in'>hr@kpplco.in</Link>
                   </p>
                 </div>
               </div>
@@ -100,7 +108,7 @@ export default function Footer1() {
           <div className='row'>
             <div className='col-xl-12'>
               <div className='footer-bottom'>
-                <p>© 2024, All Rights Reserved.</p>
+                <p>© {year}, All Rights Reserved.</p>
               </div>
             </div>
           </div>

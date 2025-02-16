@@ -1,8 +1,35 @@
+"use client";
 import Layout from "@/components/layout/Layout";
-import Link from "next/link";
-import React from "react";
+import { getEnquiryPage } from "@/lib/contentful/client";
+import React, { useState } from "react";
+
+const enquiryPage = await getEnquiryPage();
 
 const Enquiry = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [companyAddress, setCompanyAddress] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let form = { phoneNumber, email, companyAddress };
+
+    const rawResponse = await fetch("/api/submit-form-inquiry", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+    const content = await rawResponse.json();
+
+    setEmail("");
+    setPhoneNumber("");
+    setCompanyAddress("");
+  };
+
   return (
     <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='Enquiry'>
       {/*Start Faq One Section*/}
@@ -11,44 +38,42 @@ const Enquiry = () => {
           <div className='row'>
             <div className='col-xl-4 col-lg-4'>
               <div className='faq-one-left'>
-                <p>
-                  Thank you for your interest in Kutch Potash Pvt. Ltd. We value
-                  your inquiries and are here to assist you with any questions,
-                  concerns, or requests for information regarding our products
-                  and projects.
-                </p>
+                <h5>{enquiryPage[0].fields.welcomeTitle}</h5>
+                <p>{enquiryPage[0].fields.welcomeDescription}</p>
                 <br />
-                <h5>How to Reach Us</h5>
-                <br />
-                <p>
-                  For general inquiries, please fill out the contact form below,
-                  and a member of our team will get back to you as soon as
-                  possible. You can also reach us through the following contact
-                  details:
-                </p>
+                <h5>{enquiryPage[0].fields.reachUsTitle}</h5>
+                <p>{enquiryPage[0].fields.reachUsDescription}</p>
               </div>
             </div>
             <div className='col-xl-8 col-lg-8'>
-              <form action='inc/sendemail.php' className='contact-one-form'>
+              <form onSubmit={handleSubmit} className='contact-one-form'>
                 <div className='row'>
                   <div className='col-xl-12'>
                     <div className='input-box'>
                       <input
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                         type='text'
-                        name='name'
                         placeholder='Phone number'
+                      />
+                      <input type='hidden' name='formType' value='inquiry' />
+                    </div>
+                  </div>
+                  <div className='col-xl-12'>
+                    <div className='input-box'>
+                      <input
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        type='email'
+                        placeholder='E-mail'
                       />
                     </div>
                   </div>
                   <div className='col-xl-12'>
                     <div className='input-box'>
-                      <input type='email' name='email' placeholder='E-mail' />
-                    </div>
-                  </div>
-                  <div className='col-xl-12'>
-                    <div className='input-box'>
                       <textarea
-                        name='address'
+                        value={companyAddress}
+                        onChange={(e) => setCompanyAddress(e.target.value)}
                         placeholder='Company Address'
                       ></textarea>
                     </div>

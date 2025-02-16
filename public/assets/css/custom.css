@@ -2,6 +2,27 @@
    --thm-primary: #fece3c;
    --thm-black: #222222;
    --thm-gray: #777777;
+   --thm-red: #F05252;
+}
+
+.justify-content-center {
+   justify-content: center;
+}
+
+.header_upper_inner {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.header_upper_one_box .logo a,
+.sticky-header .logo a {
+   display: flex;
+   align-items: center;
+}
+
+.banner-section .swiper-slide-active .content-box h1 {
+   padding-right: 100px;
 }
 
 .header_upper_one_box .logo,
@@ -19,6 +40,10 @@
    font-weight: bold;
    margin-left: 10px;
    color: var(--thm-black);
+}
+
+.main-menu .navigation>li {
+   margin-right: 30px;
 }
 
 .banner-section .content-box h1 {
@@ -55,18 +80,68 @@
    margin-bottom: 40px;
 }
 
-.team-one-img {
+.home-page .team-one-img {
    background-size: cover;
    background-repeat: no-repeat;
    background-position: center center;
 }
 
-.team-one-img img {
+.home-page .team-one-img img {
    opacity: 0;
    visibility: hidden;
    max-height: 370px;
 }
 
-.team-one-img:before {
+.home-page .team-one-img:before {
    display: none;
+}
+
+.row-reverse {
+   flex-direction: row-reverse;
+}
+
+/* ===== contact form ===== */
+
+.error-msg {
+   font-size: 12px;
+   color: var(--thm-red);
+   margin-bottom: 0;
+}
+
+.contact-one-form .input-box {
+   position: relative;
+}
+
+.contact-one-form .input-box .error-msg {
+   position: absolute;
+   left: 5px;
+   bottom: 5px;
+}
+
+.rich-text ol li {
+   list-style-type: decimal;
+   margin-left: 15px;
+}
+
+.rich-text ul li {
+   list-style-type: disc;
+   margin-left: 15px;
+}
+
+.rich-text ul li p,
+.rich-text ol li p {
+   margin-bottom: 5px;
+}
+
+.position-item {
+   padding: 20px 0;
+   border-bottom: 1px solid black;
+}
+
+.position-item .rich-text {
+   margin-bottom: 20px;
+}
+
+.career-section h5 {
+   margin-bottom: 20px;
 }

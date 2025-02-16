@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { getSliderItems } from "@/lib/contentful/client";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
@@ -20,6 +21,8 @@ const swiperOptions = {
   },
 };
 
+const sliderItems = await getSliderItems();
+
 export default function Banner() {
   return (
     <>
@@ -28,56 +31,40 @@ export default function Banner() {
           {...swiperOptions}
           className='banner-carousel theme_carousel owl-theme'
         >
-          <SwiperSlide
-            className='slide-item'
-            style={{ backgroundImage: "url(assets/images/main-slider/1.jpg)" }}
-          >
-            <div className='content-outer'>
-              <div className='content-box'>
-                <div className='inner'>
-                  <h1>
-                    Kutch Potash <br /> a forward-thinking company <br />
-                    towards <span>Chemical Industry</span>
-                  </h1>
-                  <div className='text'>
-                    Founded to drive positive change, we deliver <br />
-                    sustainable, innovative solutions for modern industries’
-                    evolving needs.
-                  </div>
-                  <div className='link-box'>
-                    <Link href='about' className='theme-btn btn-style-one'>
-                      <span>About Us</span>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide
-            className='slide-item'
-            style={{ backgroundImage: "url(assets/images/main-slider/2.jpg)" }}
-          >
-            <div className='content-outer'>
-              <div className='content-box'>
-                <div className='inner'>
-                  <h1>
-                    believe in <br />
-                    collaboration <br /> and <span>transparency</span>
-                  </h1>
-                  <div className='text'>
-                    Founded to drive positive change, we deliver <br />
-                    sustainable, innovative solutions for modern industries’
-                    evolving needs.
-                  </div>
-                  <div className='link-box'>
-                    <Link href='about' className='theme-btn btn-style-one'>
-                      <span>About Us</span>
-                    </Link>
+          {sliderItems.map((item) => (
+            <SwiperSlide
+              className='slide-item'
+              style={{
+                backgroundImage: `url(${item.fields.sliderImage.fields.file.url})`,
+              }}
+              key={item.sys.id}
+            >
+              <div className='content-outer'>
+                <div className='content-box'>
+                  <div className='inner'>
+                    <h1>
+                      {item.fields.title}
+                      <br />
+                      {item.fields.titleSecondLine}
+                      <br />
+                      {item.fields.titleThirdLine}
+                      {` `}
+                      <span>{item.fields.highlightedText}</span>
+                    </h1>
+                    <div className='text'>{item.fields.subTitle}</div>
+                    <div className='link-box'>
+                      <Link
+                        href={`${item.fields.sliderButtonLink}`}
+                        className='theme-btn btn-style-one'
+                      >
+                        <span>{item.fields.sliderButtonText}</span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
+            </SwiperSlide>
+          ))}
         </Swiper>
         <div className='banner-slider-nav'>
           <div className='banner-slider-control banner-slider-button-prev h1p'>
@@ -88,7 +75,7 @@ export default function Banner() {
           <div className='banner-slider-control banner-slider-button-next h1n'>
             <span>
               <i className='far fa-angle-right'></i>
-            </span>{" "}
+            </span>
           </div>
         </div>
         <div className='banner-shape__left_1'></div>

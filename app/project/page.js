@@ -3,7 +3,7 @@ import Layout from "@/components/layout/Layout";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Home() {
+function Home() {
   const [isOpen, setOpen] = useState(false);
   return (
     <>
@@ -23,7 +23,7 @@ export default function Home() {
                           alt=''
                         />
                         <div className='portfolio-two-icon-box'>
-                          <Link href='/boric-acid'>
+                          <Link href='/project/boric-acid'>
                             <i className='fa fa-link'></i>
                           </Link>
                         </div>
@@ -43,7 +43,7 @@ export default function Home() {
                           alt=''
                         />
                         <div className='portfolio-two-icon-box'>
-                          <Link href='/upcoming-projects'>
+                          <Link href='/project/upcoming-projects'>
                             <i className='fa fa-link'></i>
                           </Link>
                         </div>
@@ -64,3 +64,5 @@ export default function Home() {
     </>
   );
 }
+
+export default Home;

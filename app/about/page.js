@@ -1,11 +1,18 @@
 "use client";
 import Layout from "@/components/layout/Layout";
+import Team from "@/components/sections/home1/Team";
 import Link from "next/link";
 import { useState } from "react";
 import ModalVideo from "react-modal-video";
+import { aboutUsAboutContent, aboutUsVideo } from "@/lib/contentful/client";
+
+const aboutUsAboutContentItems = await aboutUsAboutContent();
+const aboutUsVideoItems = await aboutUsVideo();
 
 export default function Home() {
   const [isOpen, setOpen] = useState(false);
+  const videoItems = aboutUsVideoItems[0];
+  console.log(videoItems);
   return (
     <>
       <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='About Us'>
@@ -33,7 +40,13 @@ export default function Home() {
                           "url(assets/images/about/about-2--pattern-2.png",
                       }}
                     ></div>
-                    <img src='assets/images/about/about-2-img-1.jpg' alt='' />
+                    <img
+                      src={
+                        aboutUsAboutContentItems[0].fields.aboutImage.fields
+                          .file.url
+                      }
+                      alt=''
+                    />
                   </div>
                 </div>
               </div>
@@ -43,12 +56,12 @@ export default function Home() {
                     <h4 className='sub-title-shape-left section_title-subheading'>
                       About Us
                     </h4>
-                    <h2>Introduction to Kutch Potash</h2>
+                    <h2>{aboutUsAboutContentItems[0].fields.aboutUsTitle}</h2>
                     <p className='about-two-title-text'>
-                      Founded with a vision to be a catalyst for positive
-                      change, we are committed to providing sustainable and
-                      innovative solutions that cater to the growing demands of
-                      modern industries.
+                      {
+                        aboutUsAboutContentItems[0].fields
+                          .aboutUsShortDescription1
+                      }
                     </p>
                   </div>
                   <div className='about-tow-experience-years style-two'>
@@ -56,24 +69,32 @@ export default function Home() {
                       <span className='flaticon-medal'></span>
                     </div>
                     <div className='about-tow-experience-years-text'>
-                      <h2>8+</h2>
+                      <h2>
+                        {aboutUsAboutContentItems[0].fields.yearsOfExperience}+
+                      </h2>
                       <p>Years of Experience</p>
                     </div>
                   </div>
                   <div className='about-two-bottom-content'>
                     <p className='about-two-bottom-text'>
-                      As we step into the chemical sector, our focus is not just
-                      on entering a new field but on redefining it through
-                      cutting-edge research, technological advancements, and
-                      sustainable practices.
+                      {
+                        aboutUsAboutContentItems[0].fields
+                          .aboutUsShortDescription2
+                      }
                     </p>
                     <h3>
-                      Mr C N Patel - <span>CEO & Founder</span>
+                      {aboutUsAboutContentItems[0].fields.ceoName}-
+                      <span>
+                        {aboutUsAboutContentItems[0].fields.ceoPosition}
+                      </span>
                     </h3>
                   </div>
                   <div className='about-two-btn'>
-                    <Link href='/contact' className='theme-btn'>
-                      Contact Us
+                    <Link
+                      href={`/${aboutUsAboutContentItems[0].fields.buttonLink}`}
+                      className='theme-btn'
+                    >
+                      {aboutUsAboutContentItems[0].fields.buttonText}
                     </Link>
                   </div>
                 </div>
@@ -86,8 +107,7 @@ export default function Home() {
         <section
           className='video-two-section'
           style={{
-            backgroundImage:
-              "url(assets/images/background/video-sec-two-bg.jpg",
+            backgroundImage: `url(${videoItems.fields.videoBackgroundImage.fields.file.url}`,
           }}
         >
           <div className='container'>
@@ -104,10 +124,11 @@ export default function Home() {
                   </div>
                   <div className='video-two-sec-content'>
                     <h2>
-                      We believe in <span>collaboration and transparency</span>{" "}
-                      <br /> 8+ years of experience
+                      {videoItems.fields.videoTitleFirst}{" "}
+                      <span>{videoItems.fields.videoTitleHighlight}</span>{" "}
+                      <br /> {videoItems.fields.videoTitleLast}
                     </h2>
-                    <p>Based in the dynamic region of Kutch</p>
+                    <p>{videoItems.fields.videoSubTitle}</p>
                   </div>
                 </div>
               </div>
@@ -119,85 +140,11 @@ export default function Home() {
           channel='youtube'
           autoplay
           isOpen={isOpen}
-          videoId='vfhzo499OeA'
+          videoId={videoItems.fields.videoID}
           onClose={() => setOpen(false)}
         />
         {/*Start Team One Section */}
-        <section className='team-one-section'>
-          <div className='container'>
-            <div className='thm-section-title text-center'>
-              <h4 className='sub-title-shape-left section_title-subheading'>
-                Meet Our Team
-              </h4>
-              <h2>Founders and Directors</h2>
-            </div>
-            <div className='row'>
-              <div className='col-xl-4 col-lg-4 col-md-6'>
-                {/*Team One Single*/}
-                <div
-                  className='team-one-single wow fadeInLeft'
-                  data-wow-delay='200ms'
-                >
-                  <div
-                    className='team-one-img'
-                    style={{
-                      backgroundImage: "url('assets/images/team/cn-patel.jpg')",
-                    }}
-                  >
-                    <img src='assets/images/team/cn-patel.jpg' alt='' />
-                  </div>
-                  <div className='team-one-content'>
-                    <h3>Mr C N Patel</h3>
-                    <p>CEO - Founder</p>
-                  </div>
-                </div>
-              </div>
-              <div className='col-xl-4 col-lg-4 col-md-6'>
-                {/*Team One Single*/}
-                <div
-                  className='team-one-single wow fadeInLeft'
-                  data-wow-delay='100ms'
-                >
-                  <div
-                    className='team-one-img'
-                    style={{
-                      backgroundImage:
-                        "url('assets/images/team/sid-patel.jpg')",
-                    }}
-                  >
-                    <img src='assets/images/team/sid-patel.jpg' alt='' />
-                  </div>
-                  <div className='team-one-content'>
-                    <h3>Mr Siddharth Patel</h3>
-                    <p>Director</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className='col-xl-4 col-lg-4 col-md-6'>
-                {/*Team One Single*/}
-                <div
-                  className='team-one-single wow fadeInLeft'
-                  data-wow-delay='300ms'
-                >
-                  <div
-                    className='team-one-img'
-                    style={{
-                      backgroundImage:
-                        "url('assets/images/team/rasik-patel.jpg')",
-                    }}
-                  >
-                    <img src='assets/images/team/rasik-patel.jpg' alt='' />
-                  </div>
-                  <div className='team-one-content'>
-                    <h3>Mr Rasik Patel</h3>
-                    <p>Director</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <Team />
         {/*End Team One Section */}
       </Layout>
     </>

@@ -1,6 +1,40 @@
+"use client";
 import Layout from "@/components/layout/Layout";
+import { getContactPage } from "@/lib/contentful/client";
 import Link from "next/link";
+import { use, useState } from "react";
+
+const contactPage = await getContactPage();
+
 export default function Home() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let form = { fullName, email, phoneNumber, subject, message };
+
+    const rawResponse = await fetch("/api/submit-form", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+    const content = await rawResponse.json();
+
+    setFullName("");
+    setEmail("");
+    setPhoneNumber("");
+    setSubject("");
+    setMessage("");
+  };
+
   return (
     <>
       <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='Contact'>
@@ -8,30 +42,30 @@ export default function Home() {
           {/*Start Contact One Section*/}
           <section className='contact-one-section'>
             <div className='container'>
-              <h5>
-                We appreciate your interest in Kutch Potash Pvt. Ltd. and look
-                forward to connecting with you! Your feedback and inquiries are
-                important to us as we strive to provide the best service and
-                solutions in the chemical industry.
-              </h5>
+              <h5>{contactPage[0].fields.contactPageTitle}</h5>
               <div className='row'>
                 <div className='col-xl-6'>
                   <div className='contact-one-image'>
                     <img
-                      src='assets/images/resource/contact-one-img-1.jpg'
+                      src={
+                        contactPage[0].fields.contactPageImage.fields.file.url
+                      }
                       alt=''
                     />
                   </div>
                 </div>
                 <div className='col-xl-6'>
-                  <form action='inc/sendemail.php' className='contact-one-form'>
+                  <form onSubmit={handleSubmit} className='contact-one-form'>
                     <div className='row'>
                       <div className='col-xl-6'>
                         <div className='input-box'>
                           <input
                             type='text'
-                            name='name'
+                            name='fullName'
                             placeholder='Your full name'
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                            required
                           />
                         </div>
                       </div>
@@ -41,6 +75,9 @@ export default function Home() {
                             type='email'
                             name='email'
                             placeholder='Your E-mail'
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            required
                           />
                         </div>
                       </div>
@@ -48,8 +85,11 @@ export default function Home() {
                         <div className='input-box'>
                           <input
                             type='text'
-                            name='phone'
+                            name='phoneNumber'
                             placeholder='Phone Number'
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            value={phoneNumber}
+                            required
                           />
                         </div>
                       </div>
@@ -57,8 +97,11 @@ export default function Home() {
                         <div className='input-box'>
                           <input
                             type='text'
-                            name='Subject'
+                            name='subject'
                             placeholder='Subject'
+                            onChange={(e) => setSubject(e.target.value)}
+                            value={subject}
+                            required
                           />
                         </div>
                       </div>
@@ -67,6 +110,9 @@ export default function Home() {
                           <textarea
                             name='message'
                             placeholder='Please let us know how we can assist you'
+                            onChange={(e) => setMessage(e.target.value)}
+                            value={message}
+                            required
                           ></textarea>
                         </div>
                       </div>
@@ -87,7 +133,7 @@ export default function Home() {
 
           <section className='google_map'>
             <iframe
-              src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.6676408448575!2d72.51962957489154!3d23.072643414458554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e834ceadc8679%3A0x441aff7bc478dd25!2sCitadel%20greenz!5e0!3m2!1sen!2sin!4v1736660368568!5m2!1sen!2sin'
+              src={contactPage[0].fields.googleMapLink}
               className='google-map__contact'
             ></iframe>
           </section>
@@ -104,7 +150,11 @@ export default function Home() {
                     </div>
                     <div className='contactinfo-content'>
                       <h4>Mail Address</h4>
-                      <Link href='mailto:info@kppl.com'>info@kppl.com</Link>
+                      <Link
+                        href={`mailto:${contactPage[0].fields.mailAddress}`}
+                      >
+                        {contactPage[0].fields.mailAddress}
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -116,7 +166,11 @@ export default function Home() {
                     </div>
                     <div className='contactinfo-content'>
                       <h4>Call Us</h4>
-                      <Link href='tel:+91 90045 18645'>+91 90045 18645</Link>
+                      <Link
+                        href={`tel:+91 ${contactPage[0].fields.phoneNumber}`}
+                      >
+                        +91 {contactPage[0].fields.phoneNumber}
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -128,14 +182,7 @@ export default function Home() {
                     </div>
                     <div className='contactinfo-content'>
                       <h4>Visit us</h4>
-                      <p>
-                        A/A-201, CITADEL GREENZ,
-                        <br />
-                        B/H. VOLKSWAGEN SHOWROOM
-                        <br />
-                        NR.SOLA BRIDGE, S.G HIGHWAY, SOLA ,
-                        <br /> AHMEDABAD, Gujarat, India - 380060
-                      </p>
+                      <p>{contactPage[0].fields.address}</p>
                     </div>
                   </div>
                 </div>

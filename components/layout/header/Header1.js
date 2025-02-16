@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Menu from "../Menu";
 import MobileMenu from "../MobileMenu";
+import { getLogoImage } from "@/lib/contentful/client";
+
+const logo = await getLogoImage();
 
 export default function Header1({
   scroll,
@@ -17,20 +20,20 @@ export default function Header1({
           <div className='auto-container'>
             <div className='row'>
               <div className='col-lg-12'>
-                <div className='header_upper_inner clearfix'>
-                  <div className='header_upper_one_box pull-left'>
+                <div className='header_upper_inner'>
+                  <div className='header_upper_one_box'>
                     <div className='logo'>
                       <Link href='/'>
                         <img
-                          src='assets/images/kppl-logo.png'
+                          src={logo[0].fields.logoImage.fields.file.url}
                           alt='kppl logo'
                           title=''
                         />
+                        <span>Kutch Potash</span>
                       </Link>
-                      <span>Kutch Potash</span>
                     </div>
                   </div>
-                  <div className='header_upper_two_box one pull-right'>
+                  <div className='header_upper_two_box one'>
                     <div className='nav-outer'>
                       {/*Mobile Navigation Toggler*/}
                       <div
@@ -71,12 +74,12 @@ export default function Header1({
                   <div className='logo'>
                     <Link href='/'>
                       <img
-                        src='assets/images/kppl-logo.png'
+                        src={logo[0].fields.logoImage.fields.file.url}
                         alt='kppl logo'
                         title=''
                       />
+                      <span>Kutch Potash</span>
                     </Link>
-                    <span>Kutch Potash</span>
                   </div>
                 </div>
               </div>

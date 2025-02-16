@@ -1,3 +1,6 @@
+import { homePageProjectSection } from "@/lib/contentful/client";
+
+const homePageProjectItems = await homePageProjectSection();
 export default function Feature() {
   return (
     <>
@@ -11,52 +14,32 @@ export default function Feature() {
             <h2>Our Current and Upcoming projects</h2>
           </div>
           <div className='row'>
-            <div className='col-xl-6 col-lg-6'>
-              {/*Main Service One Sec Single*/}
-              <div
-                className='main-service-one-sec-single wow fadeInUp'
-                data-wow-delay='300ms'
-              >
-                <div className='main-service-one-sec-img'>
-                  <img src='assets/images/service/service-1-img-1.jpg' alt='' />
-                </div>
-                <div className='main-service-one-sec-content'>
-                  <div className='main-service-one-count'>01</div>
-                  <div className='main-service-one-icon'>
-                    <i className='flaticon-lab-tool'></i>{" "}
+            {homePageProjectItems.map((item, index) => (
+              <div key={item.sys.id} className='col-xl-6 col-lg-6'>
+                {/*Main Service One Sec Single*/}
+                <div
+                  className='main-service-one-sec-single wow fadeInUp'
+                  data-wow-delay='300ms'
+                >
+                  <div className='main-service-one-sec-img'>
+                    <img
+                      src={`${item.fields.projectImage.fields.file.url}`}
+                      alt=''
+                    />
                   </div>
-                  <h3>Boric Acid</h3>
-                  <p>
-                    Our first major initiative is the development of a
-                    state-of-the-art boric acid production facility
-                  </p>
+                  <div className='main-service-one-sec-content'>
+                    <div className='main-service-one-count'>{`0${
+                      index + 1
+                    }`}</div>
+                    <div className='main-service-one-icon'>
+                      <i className='flaticon-lab-tool'></i>{" "}
+                    </div>
+                    <h3>{item.fields.projectName}</h3>
+                    <p>{item.fields.projectShotDescription}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className='col-xl-6 col-lg-6'>
-              {/*Main Service One Sec Single*/}
-              <div
-                className='main-service-one-sec-single wow fadeInUp'
-                data-wow-delay='600ms'
-              >
-                <div className='main-service-one-sec-img'>
-                  <img src='assets/images/service/service-1-img-2.jpg' alt='' />
-                </div>
-                <div className='main-service-one-sec-content'>
-                  <div className='main-service-one-count'>02</div>
-                  <div className='main-service-one-icon'>
-                    <i className='flaticon-lab-tool'></i>
-                  </div>
-                  <h3>Upcoming</h3>
-                  <p>
-                    In our pursuit of continuous growth and innovation, Kutch
-                    Potash Pvt. Ltd. is already planning several upcoming
-                    projects that will further expand our footprint in the
-                    chemical industry.
-                  </p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
