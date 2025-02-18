@@ -112,10 +112,17 @@
    position: relative;
 }
 
-.contact-one-form .input-box .error-msg {
+.contact-one-form .input-box.input-error input,
+.contact-one-form .input-box.input-error textarea {
+   border: 1px solid var(--thm-red);
+}
+
+.contact-one-form .input-box .error {
    position: absolute;
-   left: 5px;
-   bottom: 5px;
+   left: 0;
+   bottom: 0;
+   color: var(--thm-red);
+   margin: 0;
 }
 
 .rich-text ol li {

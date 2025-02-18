@@ -14,6 +14,8 @@ export default function Home() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     async function fetchData() {
       const pageData = await getContactPage();
@@ -22,8 +24,26 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!fullName.trim()) newErrors.fullName = "Full name is required";
+    if (!email.match(/^\S+@\S+\.\S+$/))
+      newErrors.email = "Invalid email format";
+    if (!phoneNumber.match(/^[0-9]{10}$/))
+      newErrors.phoneNumber = "Enter a valid 10-digit phone number";
+    if (!subject.trim()) newErrors.subject = "Subject is required";
+    if (message.length < 10)
+      newErrors.message = "Message should be at least 10 characters long";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return; // Stop submission if validation fails
 
     let form = { fullName, email, phoneNumber, subject, message };
 
@@ -69,62 +89,92 @@ export default function Home() {
                   <form onSubmit={handleSubmit} className='contact-one-form'>
                     <div className='row'>
                       <div className='col-xl-6'>
-                        <div className='input-box'>
+                        <div
+                          className={`input-box ${
+                            errors.fullName ? "input-error" : ""
+                          }`}
+                        >
                           <input
                             type='text'
                             name='fullName'
                             placeholder='Your full name'
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
-                            required
                           />
+                          {errors.fullName && (
+                            <p className='error'>{errors.fullName}</p>
+                          )}
                         </div>
                       </div>
                       <div className='col-xl-6'>
-                        <div className='input-box'>
+                        <div
+                          className={`input-box ${
+                            errors.email ? "input-error" : ""
+                          }`}
+                        >
                           <input
                             type='email'
                             name='email'
                             placeholder='Your E-mail'
-                            onChange={(e) => setEmail(e.target.value)}
                             value={email}
-                            required
+                            onChange={(e) => setEmail(e.target.value)}
                           />
+                          {errors.email && (
+                            <p className='error'>{errors.email}</p>
+                          )}
                         </div>
                       </div>
                       <div className='col-xl-6'>
-                        <div className='input-box'>
+                        <div
+                          className={`input-box ${
+                            errors.phoneNumber ? "input-error" : ""
+                          }`}
+                        >
                           <input
                             type='text'
                             name='phoneNumber'
                             placeholder='Phone Number'
-                            onChange={(e) => setPhoneNumber(e.target.value)}
                             value={phoneNumber}
-                            required
+                            onChange={(e) => setPhoneNumber(e.target.value)}
                           />
+                          {errors.phoneNumber && (
+                            <p className='error'>{errors.phoneNumber}</p>
+                          )}
                         </div>
                       </div>
                       <div className='col-xl-6'>
-                        <div className='input-box'>
+                        <div
+                          className={`input-box ${
+                            errors.subject ? "input-error" : ""
+                          }`}
+                        >
                           <input
                             type='text'
                             name='subject'
                             placeholder='Subject'
-                            onChange={(e) => setSubject(e.target.value)}
                             value={subject}
-                            required
+                            onChange={(e) => setSubject(e.target.value)}
                           />
+                          {errors.subject && (
+                            <p className='error'>{errors.subject}</p>
+                          )}
                         </div>
                       </div>
                       <div className='col-xl-12'>
-                        <div className='input-box'>
+                        <div
+                          className={`input-box ${
+                            errors.message ? "input-error" : ""
+                          }`}
+                        >
                           <textarea
                             name='message'
                             placeholder='Please let us know how we can assist you'
-                            onChange={(e) => setMessage(e.target.value)}
                             value={message}
-                            required
+                            onChange={(e) => setMessage(e.target.value)}
                           ></textarea>
+                          {errors.message && (
+                            <p className='error'>{errors.message}</p>
+                          )}
                         </div>
                       </div>
                       <div className='col-xl-12'>

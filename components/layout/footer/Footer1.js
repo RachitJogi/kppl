@@ -99,7 +99,7 @@ export default function Footer1() {
                     <Link href='tel:+91 6357956992'>+91 6357956992</Link>
                   </p>
                   <p>
-                    <Link href='mailto:hr@kpplco.in'>hr@kpplco.in</Link>
+                    <Link href='mailto:info@kpplco.in'>info@kpplco.in</Link>
                   </p>
                 </div>
               </div>

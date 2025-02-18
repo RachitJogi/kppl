@@ -9,6 +9,7 @@ const Enquiry = () => {
   const [companyAddress, setCompanyAddress] = useState("");
   const [enquiryPage, setEnquiryPage] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchEnquiryPage = async () => {
@@ -22,11 +23,39 @@ const Enquiry = () => {
     fetchEnquiryPage();
   }, []);
 
+  const validateForm = () => {
+    let newErrors = {};
+    const phoneRegex = /^[0-9]{10}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!phoneNumber) {
+      newErrors.phoneNumber = "Phone number is required.";
+    } else if (!phoneRegex.test(phoneNumber)) {
+      newErrors.phoneNumber = "Please enter a 10-digit phone number.";
+    }
+
+    if (!email) {
+      newErrors.email = "Email is required.";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Invalid email format.";
+    }
+
+    if (!companyAddress) {
+      newErrors.companyAddress = "Company address is required.";
+    } else if (companyAddress.length < 10) {
+      newErrors.companyAddress =
+        "Company address must be at least 10 characters.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!phoneNumber || !email || !companyAddress) {
-      setStatusMessage("All fields are required.");
+    if (!validateForm()) {
+      setStatusMessage("Please fix the errors before submitting.");
       return;
     }
 
@@ -47,6 +76,7 @@ const Enquiry = () => {
       setPhoneNumber("");
       setEmail("");
       setCompanyAddress("");
+      setErrors({});
       setStatusMessage("Your enquiry has been submitted successfully!");
     } catch (error) {
       setStatusMessage("Error submitting form. Please try again later.");
@@ -75,14 +105,20 @@ const Enquiry = () => {
                   <form onSubmit={handleSubmit} className='contact-one-form'>
                     <div className='row'>
                       <div className='col-xl-12'>
-                        <div className='input-box'>
+                        <div
+                          className={`input-box ${
+                            errors.phoneNumber ? "input-error" : ""
+                          }`}
+                        >
                           <input
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             type='text'
                             placeholder='Phone number'
-                            required
                           />
+                          {errors.phoneNumber && (
+                            <p className='error'>{errors.phoneNumber}</p>
+                          )}
                           <input
                             type='hidden'
                             name='formType'
@@ -91,24 +127,36 @@ const Enquiry = () => {
                         </div>
                       </div>
                       <div className='col-xl-12'>
-                        <div className='input-box'>
+                        <div
+                          className={`input-box ${
+                            errors.email ? "input-error" : ""
+                          }`}
+                        >
                           <input
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             type='email'
                             placeholder='E-mail'
-                            required
                           />
+                          {errors.email && (
+                            <p className='error'>{errors.email}</p>
+                          )}
                         </div>
                       </div>
                       <div className='col-xl-12'>
-                        <div className='input-box'>
+                        <div
+                          className={`input-box ${
+                            errors.companyAddress ? "input-error" : ""
+                          }`}
+                        >
                           <textarea
                             value={companyAddress}
                             onChange={(e) => setCompanyAddress(e.target.value)}
                             placeholder='Company Address'
-                            required
                           ></textarea>
+                          {errors.companyAddress && (
+                            <p className='error'>{errors.companyAddress}</p>
+                          )}
                         </div>
                       </div>
                       <div className='col-xl-12'>
