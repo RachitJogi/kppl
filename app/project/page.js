@@ -19,7 +19,7 @@ function Home() {
                     <div className='portfolio-one-single'>
                       <div className='portfolio-one-img-box'>
                         <img
-                          src='assets/images/portfolio/port-1-img-1.jpg'
+                          src='assets/images/project/project-boric-acid.jpeg'
                           alt=''
                         />
                         <div className='portfolio-two-icon-box'>
@@ -39,7 +39,7 @@ function Home() {
                     <div className='portfolio-one-single'>
                       <div className='portfolio-one-img-box'>
                         <img
-                          src='assets/images/portfolio/port-1-img-2.jpg'
+                          src='assets/images/project/project-upcoming-projects.jpeg'
                           alt=''
                         />
                         <div className='portfolio-two-icon-box'>

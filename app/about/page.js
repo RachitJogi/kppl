@@ -115,14 +115,14 @@ export default function Home() {
             <div className='row'>
               <div className='col-xl-12'>
                 <div className='video-two-sec-inner'>
-                  <div className='video-two-sec-icon'>
+                  {/* <div className='video-two-sec-icon'>
                     <a
                       onClick={() => setOpen(true)}
                       className='video-two-sec-btn video-popup'
                     >
                       <i className='fa fa-play'></i>
                     </a>
-                  </div>
+                  </div> */}
                   <div className='video-two-sec-content'>
                     <h2>
                       {videoData.fields.videoTitleFirst}{" "}

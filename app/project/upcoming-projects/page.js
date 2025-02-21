@@ -35,7 +35,6 @@ function Home() {
   if (!projectData) return null;
 
   const {
-    projectInnerBanner,
     projectDetails,
     projectBenefitsImage1,
     projectBenefitsImage2,
@@ -44,7 +43,7 @@ function Home() {
 
   return (
     <Layout headerStyle={1} footerStyle={1} breadcrumbTitle='Upcoming Projects'>
-      {/* Project Details Banner */}
+      {/* Project Details Banner 
       <section className='project-details-image-box'>
         <div className='container'>
           <div className='row'>
@@ -60,7 +59,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section>*/}
 
       {/* Project Details Content */}
       <section className='project-details-content-section'>

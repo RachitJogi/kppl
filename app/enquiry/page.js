@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 const Enquiry = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [companyAddress, setCompanyAddress] = useState("");
   const [enquiryPage, setEnquiryPage] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
@@ -27,6 +28,10 @@ const Enquiry = () => {
     let newErrors = {};
     const phoneRegex = /^[0-9]{10}$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!companyName) {
+      newErrors.companyName = "Company name is required.";
+    }
 
     if (!phoneNumber) {
       newErrors.phoneNumber = "Phone number is required.";
@@ -59,7 +64,7 @@ const Enquiry = () => {
       return;
     }
 
-    let form = { phoneNumber, email, companyAddress };
+    let form = { companyName, phoneNumber, email, companyAddress };
 
     try {
       const rawResponse = await fetch("/api/submit-form-inquiry", {
@@ -73,6 +78,7 @@ const Enquiry = () => {
 
       if (!rawResponse.ok) throw new Error("Failed to submit form");
 
+      setCompanyName("");
       setPhoneNumber("");
       setEmail("");
       setCompanyAddress("");
@@ -104,6 +110,28 @@ const Enquiry = () => {
                 <div className='col-xl-8 col-lg-8'>
                   <form onSubmit={handleSubmit} className='contact-one-form'>
                     <div className='row'>
+                      <div className='col-xl-12'>
+                        <div
+                          className={`input-box ${
+                            errors.companyName ? "input-error" : ""
+                          }`}
+                        >
+                          <input
+                            value={companyName}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                            type='text'
+                            placeholder='Company Name'
+                          />
+                          {errors.companyName && (
+                            <p className='error'>{errors.companyName}</p>
+                          )}
+                          <input
+                            type='hidden'
+                            name='formType'
+                            value='inquiry'
+                          />
+                        </div>
+                      </div>
                       <div className='col-xl-12'>
                         <div
                           className={`input-box ${
