@@ -46,7 +46,7 @@ export default function About() {
                     {homePageAboutSectionItems[0].fields.aboutSectionExcerpt}
                   </p>
                 </div>
-                <div className='row'>
+                <div className='row align-items-center'>
                   {homePageAboutSectionItems[0].fields.aboutSectionQualitiesList.map(
                     (item, index) => (
                       <div key={index} className='col-md-6'>

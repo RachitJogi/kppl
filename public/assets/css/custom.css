@@ -9,6 +9,10 @@
    justify-content: center;
 }
 
+.align-items-center {
+   align-items: center;
+}
+
 .header_upper_inner {
    display: flex;
    align-items: center;
@@ -155,4 +159,10 @@
 
 .project-details-content-section {
    padding-top: 40px;
+}
+
+.about-tow-section.about-page .about-tow-experience-years-text {
+   padding-left: 12px;
+   margin: 0;
+   width: calc(100% - 60px);
 }

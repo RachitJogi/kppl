@@ -8,6 +8,10 @@ import { getSliderItems } from "@/lib/contentful/client";
 
 const swiperOptions = {
   modules: [Autoplay, Pagination, Navigation],
+  autoplay: {
+    delay: 3000,
+  },
+  speed: 1000,
   slidesPerView: 1,
   spaceBetween: 0,
   loop: true,
